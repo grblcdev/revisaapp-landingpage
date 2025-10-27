@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revisa.app | Seu Assistente Inteligente de Estudos e Revisão</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <!-- Carregando Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Carregando Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <style>
+        /* Configuração da fonte Inter e estilo global */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        
+        :root {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Gradiente de fundo customizado */
+        .gradient-bg {
+            background: linear-gradient(135deg, #4f8dfd 0%, #a56dfd 50%, #f0abfc 100%);
+        }
+
+        /* Animação para o botão CTA (Pulsar) */
+        @keyframes pulse-cta {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 rgba(240, 171, 252, 0.7); }
+            50% { transform: scale(1.03); box-shadow: 0 0 25px rgba(240, 171, 252, 1); }
+        }
+        .animate-pulse-cta {
+            animation: pulse-cta 2s infinite ease-in-out;
+        }
+
+        /* Animação para elementos flutuantes (IA/Cards) */
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
+        }
+        .animate-float-slow {
+            animation: float 5s ease-in-out infinite;
+        }
+        .animate-float-medium {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        /* Animação para cards que aparecem */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Custom CSS para o Acordeão FAQ */
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            /* Transição suave para max-height e padding */
+            transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out; 
+        }
+
+        .faq-answer.open {
+            max-height: 500px; /* Suficientemente grande para as respostas */
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+
+        .faq-question-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .faq-question.active .faq-question-icon {
+            transform: rotate(180deg);
+        }
+
+    </style>
+</head>
+<body class="bg-gray-50 antialiased text-gray-800">
+
+    <!-- Navegação Topo (Item 5 e 6) -->
+    <nav class="absolute top-0 left-0 right-0 z-20 p-4">
+        <div class="container mx-auto max-w-6xl flex justify-between items-center">
+            <!-- Ícone do App (Esquerda) - revisaapp.png -->
+            <div class="flex items-center space-x-2">
+                <!-- Usando um placeholder com as cores da marca -->
+                 <a href="index.html" class="flex items-center space-x-2">
+                  <img src="revisaapp.png" alt="Ícone Revisa.app" class="w-10 h-10 rounded-lg">
+                  <span class="text-white text-lg font-bold">Revisa.app</span>
+                </a>
+                
+            </div>
+            <!-- Menu Sutil (Direita) -->
+            <div class="hidden md:flex space-x-6 text-sm">
+                <a href="mailto:suporte@revisaapp.com" class="text-white opacity-80 hover:opacity-100 transition duration-200">Contato</a>
+                <a href="termos-de-uso.html" class="text-white opacity-80 hover:opacity-100 transition duration-200">Termos de Uso</a>
+                <a href="politica-de-privacidade.html" class="text-white opacity-80 hover:opacity-100 transition duration-200">Políticas de Privacidade</a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Seção Principal (Hero) com Gradiente -->
+    <header class="gradient-bg min-h-[10vh] flex items-center justify-center p-4 pt-20"> <!-- Adicionado pt-20 para compensar a nav -->
+
+    </header>
+
+    <section class="py-20 bg-white">
+        <div class="container mx-auto max-w-6xl px-4">
+          <button data-lang="pt-br" class="inline-block px-8 py-3 text-md font-bold text-white bg-[#a56dfd] rounded-lg shadow-lg hover:bg-[#9158ec] transition duration-300 transform hover:scale-105" onclick="setLanguage('pt-br')" >PT-BR</button>
+          <button data-lang="en" class="inline-block px-8 py-3 text-md font-bold text-white bg-[#a56dfd] rounded-lg shadow-lg hover:bg-[#9158ec] transition duration-300 transform hover:scale-105" onclick="setLanguage('en')" >EN</button>
+        </div>
+    </section>
+
+    <section class="bg-white pb-20" data-lang="pt-br">
+      <div class="container mx-auto max-w-6xl px-4">
+
+  <p>Termos de Uso do Revisa.app</p>
+  <br>
+  <p>Última atualização: 28/09/2025</p>
+  <br>
+  <ol>
+    <li><p><strong>Identificação do App e do Responsável:</strong>
+      O Revisa.app é desenvolvido por Guilherme Richard Barros Lima da Costa, com e-mail de contato: <a href="mailto:suporte@revisaapp.com">suporte@revisaapp.com</a>.</p>
+    </li>
+    <li><p><strong>Aceitação dos Termos:</strong>
+      Ao utilizar o Revisa.app, você declara que leu, compreendeu e concorda com estes Termos de Uso. Caso não concorde com algum ponto, não utilize o aplicativo. O uso do app implica consentimento para coleta e processamento de dados conforme descrito nestes Termos.</p>
+    </li>
+    <li><p><strong>Descrição do Serviço:</strong>
+      O Revisa.app permite a criação, estudo e revisão de flashcards. O app oferece funcionalidades como:</p>
+    </li>
+  </ol>
+  <ul>
+    <li>Criação e gerenciamento de flashcards;</li>
+    <li>Criação de flashcards a partir de documentos PDF, DOCX, TXT ou HTML;</li>
+    <li>Sincronização de progresso em nuvem;</li>
+    <li>Recebimento de notificações de revisão;</li>
+    <li>Estatísticas agregadas de uso.
+      O app não garante resultados específicos de aprendizagem.</li>
+  </ul>
+  <ol start="4">
+    <li><strong>Planos e Funcionalidades:</strong>
+      O Revisa.app oferece dois planos de assinatura:</li>
+  </ol>
+  <ul>
+    <li>Gratuito: funcionalidades manuais ilimitadas + notificações diárias + 20 créditos iniciais para testar a geração de flashcards com IA.</li>
+    <li>Plano Básico: Permite gerar até 100 créditos de flashcards por mês, com limite máximo de 1000 créditos acumuláveis.</li>
+    <li>Plano Avançado: Permite gerar até 500 créditos de flashcards por mês, com limite máximo de 3000 créditos acumuláveis.
+      O acesso a todas as funcionalidades depende do login via conta Google e do plano contratado. Créditos de flashcards gerados por IA são contabilizados individualmente.</li>
+  </ul>
+  <ol start="5">
+    <li><p><strong>Cadastro e Conta de Usuário:</strong>
+      O acesso ao Revisa.app é feito exclusivamente via conta Google. Você é responsável por manter a segurança de sua conta Google, incluindo login e senha. O Revisa.app pode suspender ou encerrar contas que violem estes Termos. A exclusão da conta pode ser realizada a qualquer momento, desde que assinaturas ativas sejam canceladas. Dados do usuário serão anonimizados após exclusão, podendo ser usados para treinamento de IA sem identificação. Embora a LGPD preveja portabilidade de dados, o Revisa.app não oferece esta funcionalidade devido a limitações técnicas. O usuário ainda pode acessar, corrigir, excluir ou anonimizar seus dados mediante solicitação.</p>
+      <p>O Revisa.app poderá excluir contas que permaneçam inativas por mais de 12 meses. Antes da exclusão definitiva, o usuário será notificado por e-mail com antecedência mínima de 30 dias, podendo reativar sua conta mediante novo login nesse período. Após a exclusão, os dados serão anonimizados ou apagados de forma irreversível.</p>
+    </li>
+    <li><p><strong>Uso Permitido e Proibido:</strong>
+      Permitido: criar e revisar flashcards, utilizar estatísticas agregadas, acessar funcionalidades de acordo com o plano.
+      Proibido: uso ilegal, assédio, envio de spam, hacking, violação de direitos autorais ou propriedade intelectual.</p>
+    </li>
+    <li><p><strong>Propriedade Intelectual:</strong>
+      O usuário mantém a titularidade sobre o conteúdo original enviado. Ao enviar conteúdo, você concede ao Revisa.app o direito de processar e transformar este conteúdo em flashcards. Os flashcards gerados serão de propriedade exclusiva do Revisa.app, sendo concedida ao usuário uma licença limitada, pessoal e intransferível para uso dentro do aplicativo para fins de estudo. É proibido copiar, modificar, distribuir ou vender qualquer conteúdo sem autorização.</p>
+    </li>
+    <li><p><strong>Compras, Pagamentos e Reembolso:</strong>
+      Assinaturas e compras dentro do app são processadas via Google Play Billing. O Revisa.app não tem acesso a informações sensíveis do cartão de crédito ou débito. Apenas informações mínimas de transações (produto, status e data) são armazenadas, vinculadas a um ID anônimo quando necessário para contabilidade ou obrigações legais.
+      Política de Reembolso: Reembolsos seguem as regras do Google Play. Após reembolso, o acesso aos flashcards gerados e créditos será removido, mas funcionalidades gratuitas permanecerão disponíveis. Abusos poderão resultar em bloqueio de conta.
+      Renovação automática: A renovação será gerida pelo Google Play, e créditos serão adicionados conforme o plano, respeitando os limites máximos de cada assinatura.</p>
+    </li>
+    <li><p><strong>Limitação de Responsabilidade:</strong>
+      O Revisa.app é fornecido "como está". Não nos responsabilizamos por perdas, danos ou falhas de serviço. Garantias sobre resultados de estudo ou aprendizagem não são fornecidas.</p>
+    </li>
+    <li><p><strong>Segurança e Privacidade:</strong>
+      Os dados dos usuários são criptografados e transferidos por conexões seguras. Servidores localizados no Brasil e nos Estados Unidos armazenam os dados. O uso do app implica consentimento para coleta e processamento de dados. O Google Analytics e Crashlytics podem coletar dados anônimos de uso e falhas para melhoria do serviço. Em caso de violação de dados, os usuários serão notificados via e-mail.</p>
+    </li>
+    <li><p><strong>Modificações no App ou Termos:</strong>
+      Podemos atualizar funcionalidades ou estes Termos. Alterações relevantes serão comunicadas aos usuários. O uso continuado do app após alterações constitui aceitação dos novos termos.</p>
+    </li>
+    <li><p><strong>Rescisão:</strong>
+      O usuário pode encerrar sua conta a qualquer momento. O Revisa.app pode encerrar contas que violem os Termos. Após rescisão, o acesso ao conteúdo e funcionalidades será perdido, exceto por dados agregados ou anonimizados para estatísticas.</p>
+    </li>
+    <li><p><strong>Lei Aplicável e Foro:</strong>
+      Estes Termos são regidos pela legislação brasileira. Em caso de disputas, fica eleito o foro da comarca de Itapetininga/SP.</p>
+    </li>
+    <li><p><strong>Contato:</strong>
+      Para dúvidas, solicitações ou reclamações sobre os Termos de Uso, entre em contato: <a href="mailto:suporte@revisaapp.com">suporte@revisaapp.com</a>. O prazo mínimo de resposta será de 7 dias úteis em horário comercial.</p>
+    </li>
+  </ol>
+
+      </div>
+    </section>
+
+    <section class="bg-white pb-20" data-lang="en" >
+      <div class="container mx-auto max-w-6xl px-4">
+
+        
+  <p>Terms of Use of Revisa.app</p>
+  <br>
+    <p>Last updated: 28/09/2025</p>
+  <br>
+    <ol>
+      <li><p><strong>App Identification and Responsible Party:</strong>
+        Revisa.app is developed by Guilherme Richard Barros Lima da Costa, contact email: <a href="mailto:suporte@revisaapp.com">suporte@revisaapp.com</a>.</p>
+      </li>
+      <li><p><strong>Acceptance of Terms:</strong>
+        By using Revisa.app, you declare that you have read, understood, and agree to these Terms of Use. If you do not agree with any part, do not use the application. Use of the app implies consent for the collection and processing of data as described in these Terms.</p>
+      </li>
+      <li><p><strong>Service Description:</strong>
+        Revisa.app allows the creation, study, and review of flashcards. The app offers features such as:</p>
+      </li>
+    </ol>
+    <ul>
+      <li>Creation and management of flashcards;</li>
+      <li>Generation of flashcards from PDF, DOCX, TXT, or HTML documents;</li>
+      <li>Cloud progress synchronization;</li>
+      <li>Review notifications;</li>
+      <li>Aggregated usage statistics.
+        The app does not guarantee specific learning outcomes.</li>
+    </ul>
+    <ol start="4">
+      <li><strong>Plans and Features:</strong>
+        Revisa.app offers two subscription plans:</li>
+    </ol>
+    <ul>
+      <li>Free: Unlimited manual features + daily notifications + 20 initial credits to test AI flashcard generation.</li>
+      <li>Basic Plan: Allows generating up to 100 flashcard credits per month, with a maximum of 1000 accumulated credits.</li>
+      <li>Advanced Plan: Allows generating up to 500 flashcard credits per month, with a maximum of 3000 accumulated credits.
+        Access to all features requires login via a Google account and a valid subscription. AI-generated flashcards are counted individually as credits.</li>
+    </ul>
+    <ol start="5">
+      <li><p><strong>User Account and Registration:</strong>
+        Access to Revisa.app is exclusively through a Google account. You are responsible for maintaining the security of your Google account, including login and password. Revisa.app may suspend or terminate accounts that violate these Terms. Account deletion can be done at any time, provided active subscriptions are canceled. User data will be anonymized upon deletion and may be used for AI training without identification. Although the LGPD provides for data portability, Revisa.app does not offer this functionality due to technical limitations. Users can still access, correct, delete, or anonymize their data upon request.</p>
+        <p>Revisa.app may delete accounts that remain inactive for more than 12 months. Before permanent deletion, the user will be notified by email at least 30 days in advance, and may reactivate their account by logging in again within that period. After deletion, data will be anonymized or irreversibly deleted.</p>
+      </li>
+      <li><p><strong>Permitted and Prohibited Use:</strong>
+        Permitted: creating and reviewing flashcards, using aggregated statistics, accessing features according to the subscription plan.
+        Prohibited: illegal use, harassment, spamming, hacking, violation of copyright or intellectual property rights.</p>
+      </li>
+      <li><p><strong>Intellectual Property:</strong>
+        Users retain ownership of the original content they submit. By submitting content, you grant Revisa.app the right to process and transform it into flashcards. Generated flashcards are the exclusive property of Revisa.app, with users granted a limited, personal, and non-transferable license to use them within the app for study purposes. Copying, modifying, distributing, or selling any content without authorization is prohibited.</p>
+      </li>
+      <li><p><strong>Purchases, Payments, and Refunds:</strong>
+        In-app subscriptions and purchases are processed via Google Play Billing. Revisa.app does not access sensitive credit or debit card information. Only minimal transaction information (product, status, and date) is stored, linked to an anonymous ID when necessary for accounting or legal obligations.
+        Refund Policy: Refunds follow Google Play rules. After a refund, access to generated flashcards and credits will be removed, but free features remain available. Abuse may result in account suspension.
+        Automatic renewal: Renewal is managed by Google Play, and credits will be added according to the plan, respecting the maximum limits of each subscription.</p>
+      </li>
+      <li><p><strong>Limitation of Liability:</strong>
+        Revisa.app is provided "as is." We are not responsible for any loss, damage, or service failures. No guarantees are provided regarding study or learning outcomes.</p>
+      </li>
+      <li><p><strong>Security and Privacy:</strong>
+        User data is encrypted and transmitted via secure connections. Servers located in Brazil and the United States store the data. Use of the app implies consent for data collection and processing. Google Analytics and Crashlytics may collect anonymous usage and crash data to improve the service. In case of a data breach, users will be notified via email.</p>
+      </li>
+      <li><p><strong>Modifications to the App or Terms:</strong>
+        We may update features or these Terms. Significant changes will be communicated to users. Continued use of the app after changes constitutes acceptance of the new terms.</p>
+      </li>
+      <li><p><strong>Termination:</strong>
+        Users may terminate their accounts at any time. Revisa.app may terminate accounts that violate the Terms. Upon termination, access to content and features will be lost, except for aggregated or anonymized data used for statistics.</p>
+      </li>
+      <li><p><strong>Governing Law and Jurisdiction:</strong>
+        These Terms are governed by Brazilian law. In case of disputes, the court of Itapetininga/SP is elected.</p>
+      </li>
+      <li><p><strong>Contact:</strong>
+        For questions, requests, or complaints about the Terms of Use, contact: <a href="mailto:suporte@revisaapp.com">suporte@revisaapp.com</a>. The minimum response time is 7 business days during business hours.</p>
+      </li>
+    </ol>
+
+      </div>
+    </section>
+
+    <!-- Rodapé -->
+    <footer class="bg-gray-800 text-white p-6 text-center">
+        <div class="container mx-auto">
+            <p>&copy; 2025 Revisa.app. Todos os direitos reservados.</p>
+            <p class="text-sm mt-2 text-gray-400">Estude rápido, memorize fácil.</p>
+        </div>
+    </footer>
+
+<script>
+
+function setLanguage(lang) {
+    if(lang.startsWith('pt')) {
+        document.querySelector('button[data-lang="pt-br"]').classList.add('hidden');
+        document.querySelector('button[data-lang="en"]').classList.remove('hidden');
+        document.querySelector('section[data-lang="pt-br"]').classList.remove('hidden');
+        document.querySelector('section[data-lang="en"]').classList.add('hidden');
+    } else {
+        document.querySelector('button[data-lang="en"]').classList.add('hidden');
+        document.querySelector('button[data-lang="pt-br"]').classList.remove('hidden');
+        document.querySelector('section[data-lang="en"]').classList.remove('hidden');
+        document.querySelector('section[data-lang="pt-br"]').classList.add('hidden');
+    }
+}
+
+// Detectar idioma do navegador
+const userLang = navigator.language || navigator.userLanguage;
+setLanguage(userLang);
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revisa.app | Seu Assistente Inteligente de Estudos e Revisão</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <!-- Carregando Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Carregando Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <style>
+        /* Configuração da fonte Inter e estilo global */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        
+        :root {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Gradiente de fundo customizado */
+        .gradient-bg {
+            background: linear-gradient(135deg, #4f8dfd 0%, #a56dfd 50%, #f0abfc 100%);
+        }
+
+        /* Animação para o botão CTA (Pulsar) */
+        @keyframes pulse-cta {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 rgba(240, 171, 252, 0.7); }
+            50% { transform: scale(1.03); box-shadow: 0 0 25px rgba(240, 171, 252, 1); }
+        }
+        .animate-pulse-cta {
+            animation: pulse-cta 2s infinite ease-in-out;
+        }
+
+        /* Animação para elementos flutuantes (IA/Cards) */
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
+        }
+        .animate-float-slow {
+            animation: float 5s ease-in-out infinite;
+        }
+        .animate-float-medium {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        /* Animação para cards que aparecem */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Custom CSS para o Acordeão FAQ */
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            /* Transição suave para max-height e padding */
+            transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out; 
+        }
+
+        .faq-answer.open {
+            max-height: 500px; /* Suficientemente grande para as respostas */
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+
+        .faq-question-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .faq-question.active .faq-question-icon {
+            transform: rotate(180deg);
+        }
+
+    </style>
+</head>
+<body class="bg-gray-50 antialiased text-gray-800">
+
+    <!-- Navegação Topo (Item 5 e 6) -->
+    <nav class="absolute top-0 left-0 right-0 z-20 p-4">
+        <div class="container mx-auto max-w-6xl flex justify-between items-center">
+            <!-- Ícone do App (Esquerda) - revisaapp.png -->
+            <div class="flex items-center space-x-2">
+                <!-- Usando um placeholder com as cores da marca -->
+                 <a href="index.html" class="flex items-center space-x-2">
+                  <img src="revisaapp.png" alt="Ícone Revisa.app" class="w-10 h-10 rounded-lg">
+                  <span class="text-white text-lg font-bold">Revisa.app</span>
+                </a>
+                
+            </div>
+            <!-- Menu Sutil (Direita) -->
+            <div class="hidden md:flex space-x-6 text-sm">
+                <a href="mailto:suporte@revisaapp.com" class="text-white opacity-80 hover:opacity-100 transition duration-200">Contato</a>
+                <a href="termos-de-uso.html" class="text-white opacity-80 hover:opacity-100 transition duration-200">Termos de Uso</a>
+                <a href="politica-de-privacidade.html" class="text-white opacity-80 hover:opacity-100 transition duration-200">Políticas de Privacidade</a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Seção Principal (Hero) com Gradiente -->
+    <header class="gradient-bg min-h-[10vh] flex items-center justify-center p-4 pt-20"> <!-- Adicionado pt-20 para compensar a nav -->
+
+    </header>
+
+    <section class="py-20 bg-white">
+        <div class="container mx-auto max-w-6xl px-4">
+          <button data-lang="pt-br" class="inline-block px-8 py-3 text-md font-bold text-white bg-[#a56dfd] rounded-lg shadow-lg hover:bg-[#9158ec] transition duration-300 transform hover:scale-105" onclick="setLanguage('pt-br')" >PT-BR</button>
+          <button data-lang="en" class="inline-block px-8 py-3 text-md font-bold text-white bg-[#a56dfd] rounded-lg shadow-lg hover:bg-[#9158ec] transition duration-300 transform hover:scale-105" onclick="setLanguage('en')" >EN</button>
+        </div>
+    </section>
+
+    <!-- Seção 2: Como Funciona - O Poder da IA -->
+    <section class="bg-white pb-20" data-lang="pt-br">
+      <div class="container mx-auto max-w-6xl px-4">
+        
+        <p>Política de Privacidade do Revisa.app</p>
+  <br>
+          <p>Última atualização: 28/09/2025</p>
+  <br>
+          <ol>
+            <li><p><strong>Identificação do Controlador:</strong>
+              O Revisa.app é desenvolvido por Guilherme Richard Barros Lima da Costa, com e-mail de contato: <a href="mailto:suporte@revisaapp.com">suporte@revisaapp.com</a>.</p>
+            </li>
+            <li><p><strong>Dados Pessoais Coletados:</strong>
+              Coletamos apenas os dados necessários para o funcionamento do aplicativo:</p>
+            </li>
+          </ol>
+          <ul>
+            <li>Nome e e-mail do usuário (via login Google);</li>
+            <li>Progresso e conteúdo de flashcards;</li>
+            <li>Dados de uso e crash reports (Google Analytics e Crashlytics);</li>
+            <li>Informações relacionadas a compras realizadas via Google Play Billing (produto, status e data);</li>
+            <li>Usuários no plano gratuito recebem 20 créditos iniciais para testar a geração de flashcards com IA.</li>
+          </ul>
+          <ol start="3">
+            <li><strong>Finalidade da Coleta:</strong></li>
+          </ol>
+          <ul>
+            <li>Criar e gerenciar contas;</li>
+            <li>Sincronizar flashcards e progresso em nuvem;</li>
+            <li>Enviar notificações de revisão;</li>
+            <li>Processar pagamentos via Google Play Billing;</li>
+            <li>Melhorar funcionalidades e corrigir erros do app;</li>
+            <li>Gerar estatísticas agregadas de uso;</li>
+            <li>Treinar modelos de inteligência artificial com dados anonimizados para melhorar o aplicativo.</li>
+          </ul>
+          <ol start="4">
+            <li><strong>Compartilhamento de Dados:</strong></li>
+          </ol>
+          <ul>
+            <li>Google: login, autenticação e análise de dados;</li>
+            <li>Firebase: analytics e crashlytics;</li>
+            <li>Supabase: backend e armazenamento de dados do usuário;</li>
+            <li>Google Play Billing: processamento de pagamentos.</li>
+          </ul>
+          <ol start="5">
+            <li><strong>Retenção e Exclusão de Dados:</strong>
+              Os dados pessoais permanecem até que o usuário solicite a exclusão da conta. Após a exclusão, os dados podem ser:</li>
+          </ol>
+          <ul>
+            <li>Totalmente excluídos;</li>
+            <li>Ou anonimizados de forma irreversível para análise estatística, melhoria do app e treinamento de IA, sem possibilidade de identificação do usuário.</li>
+            <li>Além da exclusão voluntária solicitada pelo usuário, o Revisa.app poderá excluir contas inativas por mais de 12 meses. Nesses casos, o usuário será previamente notificado por e-mail com antecedência mínima de 30 dias. Após a exclusão, os dados pessoais serão anonimizados ou eliminados de forma definitiva, impossibilitando sua recuperação.</li>
+          </ul>
+          <ol start="6">
+            <li><strong>Direitos do Usuário (LGPD):</strong>
+              O usuário pode solicitar a qualquer momento:</li>
+          </ol>
+          <ul>
+            <li>O usuário pode solicitar a qualquer momento: acesso aos dados pessoais, correção ou atualização de dados, exclusão ou anonimização de dados, revogação do consentimento. A portabilidade de dados para outros serviços não é oferecida no momento devido a limitações técnicas. Solicitações devem ser feitas via e-mail: <a href="mailto:suporte@revisaapp.com">suporte@revisaapp.com</a>.</li>
+          </ul>
+          <ol start="7">
+            <li><p><strong>Segurança dos Dados:</strong>
+              Os dados são armazenados com segurança no Supabase, com autenticação segura e criptografia. Dados de analytics e crash reports são tratados pelo Firebase de forma segura. Servidores estão localizados no Brasil e nos Estados Unidos.</p>
+            </li>
+            <li><p><strong>Transferência Internacional de Dados:</strong>
+              Alguns servidores utilizados pelo Revisa.app podem estar localizados fora do Brasil. Garantimos que o tratamento segue normas internacionais de segurança e privacidade.</p>
+            </li>
+            <li><p><strong>Consentimento:</strong>
+              O uso do aplicativo implica consentimento para a coleta e processamento de dados descritos nesta política.</p>
+            </li>
+            <li><p><strong>Alterações na Política:</strong>
+              A política pode ser atualizada para adequação a novas normas ou funcionalidades. Mudanças relevantes serão comunicadas aos usuários.</p>
+            </li>
+            <li><p><strong>Contato:</strong>
+              Para dúvidas, solicitações ou reclamações sobre dados pessoais, entre em contato: <a href="mailto:suporte@revisaapp.com">suporte@revisaapp.com</a>. O prazo mínimo de resposta é de 7 dias úteis em horário comercial.</p>
+            </li>
+            <li><p><strong>Considerações sobre Pagamentos:</strong>
+              Ao utilizar o Google Play Billing, o Revisa.app não acessa dados sensíveis de cartão de crédito ou débito. Apenas informações mínimas de transação (produto, status e data) são armazenadas, vinculadas a um ID anônimo se necessário, para fins contábeis e legais.</p>
+            </li>
+          </ol>
+
+      </div>
+    </section>
+
+    <section class="bg-white pb-20" data-lang="en" >
+      <div class="container mx-auto max-w-6xl px-4">
+
+        
+  <p>Privacy Policy of Revisa.app</p>
+  <br>
+    <p>Last updated: 28/09/2025</p>
+  <br>
+    <ol>
+      <li><p><strong>Data Controller Identification:</strong>
+        Revisa.app is developed by Guilherme Richard Barros Lima da Costa, contact email: <a href="mailto:suporte@revisaapp.com">suporte@revisaapp.com</a>.</p>
+      </li>
+      <li><p><strong>Personal Data Collected:</strong>
+        We collect only the data necessary for the operation of the application:</p>
+      </li>
+    </ol>
+    <ul>
+      <li>User's name and email (via Google login);</li>
+      <li>Progress and content of flashcards;</li>
+      <li>Usage data and crash reports (Google Analytics and Crashlytics);</li>
+      <li>Information related to purchases made via Google Play Billing (product, status, and date);</li>
+      <li>Users on the free plan receive 20 initial credits to test out AI-powered flashcard generation.</li>
+    </ul>
+    <ol start="3">
+      <li><strong>Purpose of Collection:</strong></li>
+    </ol>
+    <ul>
+      <li>Create and manage accounts;</li>
+      <li>Synchronize flashcards and progress in the cloud;</li>
+      <li>Send review notifications;</li>
+      <li>Process payments via Google Play Billing;</li>
+      <li>Improve app features and fix bugs;</li>
+      <li>Generate aggregated usage statistics;</li>
+      <li>Train artificial intelligence models with anonymized data to improve the app.</li>
+    </ul>
+    <ol start="4">
+      <li><strong>Data Sharing:</strong></li>
+    </ol>
+    <ul>
+      <li>Google: login, authentication, and data analytics;</li>
+      <li>Firebase: analytics and crashlytics;</li>
+      <li>Supabase: backend and user data storage;</li>
+      <li>Google Play Billing: payment processing.</li>
+    </ul>
+    <ol start="5">
+      <li><strong>Data Retention and Deletion:</strong>
+        Personal data remains until the user requests account deletion. After deletion, data may be:</li>
+    </ol>
+    <ul>
+      <li>Completely deleted;</li>
+      <li>Or irreversibly anonymized for statistical analysis, app improvement, and AI training, without the possibility of identifying the user.</li>
+      <li>In addition to voluntary deletion requested by the user, Revisa.app may delete accounts that have been inactive for more than 12 months. In these cases, the user will be notified by email at least 30 days in advance. After deletion, personal data will be anonymized or permanently deleted, making it impossible to recover.</li>
+    </ul>
+    <ol start="6">
+      <li><strong>User Rights (LGPD):</strong>
+        Users may request at any time:</li>
+    </ol>
+    <ul>
+      <li>The user may request at any time: access to personal data, correction or update of data, deletion or anonymization of data, or revocation of consent. Data portability to other services is not currently offered due to technical limitations. Requests should be made via email: <a href="mailto:suporte@revisaapp.com">suporte@revisaapp.com</a>.</li>
+    </ul>
+    <ol start="7">
+      <li><p><strong>Data Security:</strong>
+        Data is securely stored on Supabase, with secure authentication and encryption. Analytics and crash reports are securely handled by Firebase. Servers are located in Brazil and the United States.</p>
+      </li>
+      <li><p><strong>International Data Transfer:</strong>
+        Some servers used by Revisa.app may be located outside Brazil. We ensure that processing complies with international security and privacy standards.</p>
+      </li>
+      <li><p><strong>Consent:</strong>
+        Use of the application implies consent for the collection and processing of data described in this policy.</p>
+      </li>
+      <li><p><strong>Policy Changes:</strong>
+        This policy may be updated to comply with new regulations or app features. Significant changes will be communicated to users.</p>
+      </li>
+      <li><p><strong>Contact:</strong>
+        For questions, requests, or complaints regarding personal data, contact: <a href="mailto:suporte@revisaapp.com">suporte@revisaapp.com</a>. The minimum response time is 7 business days during business hours.</p>
+      </li>
+      <li><p><strong>Payment Considerations:</strong>
+        When using Google Play Billing, Revisa.app does not access sensitive credit or debit card information. Only minimal transaction information (product, status, and date) is stored, linked to an anonymous ID if necessary for accounting or legal purposes.</p>
+      </li>
+    </ol>
+
+
+      </div>
+    </section>
+
+    <!-- Rodapé -->
+    <footer class="bg-gray-800 text-white p-6 text-center">
+        <div class="container mx-auto">
+            <p>&copy; 2025 Revisa.app. Todos os direitos reservados.</p>
+            <p class="text-sm mt-2 text-gray-400">Estude rápido, memorize fácil.</p>
+        </div>
+    </footer>
+
+<script>
+
+function setLanguage(lang) {
+    if(lang.startsWith('pt')) {
+        document.querySelector('button[data-lang="pt-br"]').classList.add('hidden');
+        document.querySelector('button[data-lang="en"]').classList.remove('hidden');
+        document.querySelector('section[data-lang="pt-br"]').classList.remove('hidden');
+        document.querySelector('section[data-lang="en"]').classList.add('hidden');
+    } else {
+        document.querySelector('button[data-lang="en"]').classList.add('hidden');
+        document.querySelector('button[data-lang="pt-br"]').classList.remove('hidden');
+        document.querySelector('section[data-lang="en"]').classList.remove('hidden');
+        document.querySelector('section[data-lang="pt-br"]').classList.add('hidden');
+    }
+}
+
+// Detectar idioma do navegador
+const userLang = navigator.language || navigator.userLanguage;
+setLanguage(userLang);
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revisa.app | Seu Assistente Inteligente de Estudos e Revisão</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <!-- Carregando Tailwind CSS CDN -->
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Carregando Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <style>
+        /* Configuração da fonte Inter e estilo global */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        
+        :root {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Gradiente de fundo customizado */
+        .gradient-bg {
+            background: linear-gradient(135deg, #4f8dfd 0%, #a56dfd 50%, #f0abfc 100%);
+        }
+
+        /* Animação para o botão CTA (Pulsar) */
+        @keyframes pulse-cta {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 rgba(240, 171, 252, 0.7); }
+            50% { transform: scale(1.03); box-shadow: 0 0 25px rgba(240, 171, 252, 1); }
+        }
+        .animate-pulse-cta {
+            animation: pulse-cta 2s infinite ease-in-out;
+        }
+
+        /* Animação para elementos flutuantes (IA/Cards) */
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
+        }
+        .animate-float-slow {
+            animation: float 5s ease-in-out infinite;
+        }
+        .animate-float-medium {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        /* Animação para cards que aparecem */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Custom CSS para o Acordeão FAQ */
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            /* Transição suave para max-height e padding */
+            transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out; 
+        }
+
+        .faq-answer.open {
+            max-height: 500px; /* Suficientemente grande para as respostas */
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+
+        .faq-question-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .faq-question.active .faq-question-icon {
+            transform: rotate(180deg);
+        }
+
+    </style>
+</head>
+<body class="bg-gray-50 antialiased text-gray-800">
+
+    <!-- Navegação Topo (Item 5 e 6) -->
+    <nav class="absolute top-0 left-0 right-0 z-20 p-4">
+        <div class="container mx-auto max-w-6xl flex justify-between items-center">
+            <!-- Ícone do App (Esquerda) - revisaapp.png -->
+            <div class="flex items-center space-x-2">
+                <!-- Usando um placeholder com as cores da marca -->
+                <a href="index.html" class="flex items-center space-x-2">
+                  <img src="revisaapp.png" alt="Ícone Revisa.app" class="w-10 h-10 rounded-lg">
+                  <span class="text-white text-lg font-bold">Revisa.app</span>
+                </a>
+            </div>
+            <!-- Menu Sutil (Direita) -->
+            <div class="hidden md:flex space-x-6 text-sm">
+                <a href="mailto:suporte@revisaapp.com" class="text-white opacity-80 hover:opacity-100 transition duration-200">Contato</a>
+                <a href="termos-de-uso.html" class="text-white opacity-80 hover:opacity-100 transition duration-200">Termos de Uso</a>
+                <a href="politica-de-privacidade.html" class="text-white opacity-80 hover:opacity-100 transition duration-200">Políticas de Privacidade</a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Seção Principal (Hero) com Gradiente -->
+    <header class="gradient-bg min-h-[90vh] flex items-center justify-center p-4 pt-20"> <!-- Adicionado pt-20 para compensar a nav -->
+        <div class="container mx-auto max-w-6xl text-center relative py-16">
+            <!-- Elementos flutuantes de fundo para dar a sensação de IA/Estudo -->
+            <div class="absolute inset-0 overflow-hidden opacity-30">
+                <div class="w-16 h-16 bg-white/20 rounded-full absolute top-10 left-5 animate-float-slow delay-500"></div>
+                <div class="w-10 h-10 bg-white/20 rounded-lg absolute top-1/2 right-10 animate-float-medium"></div>
+                <div class="w-24 h-24 bg-white/20 rounded-full absolute bottom-5 left-1/4 animate-float-slow delay-1000"></div>
+            </div>
+
+            <h1 class="text-5xl md:text-7xl font-extrabold text-white mb-6 leading-tight relative z-10 drop-shadow-lg">
+                <span class="block bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-white pb-2">Revolucione sua Revisão</span> com a Força da IA
+            </h1>
+            <p class="text-xl md:text-2xl text-white mb-10 relative z-10 opacity-90 drop-shadow-md max-w-3xl mx-auto">
+                Otimize seus estudos. Transforme qualquer material em Flashcards inteligentes, automatizados e prontos para o aprendizado acelerado.
+            </p>
+
+            <!-- CTA Principal (Chamativo e Animado) -->
+            <a href="#download" class="inline-block px-12 py-4 text-lg font-bold text-[#a56dfd] bg-white rounded-full shadow-2xl hover:bg-gray-100 transition duration-300 ease-in-out transform hover:scale-105 animate-pulse-cta relative z-10">
+                Baixe o Revisa.app Grátis!
+            </a>
+            <p class="text-sm text-white/80 mt-4 relative z-10">Disponível para Android.</p>
+
+            <!-- Mockup do Aplicativo (Ajustado e com Vídeo) -->
+            <div class="mt-16 flex justify-center relative z-10">
+                <!-- Ajustado para w-72 h-[600px] -->
+                <div class="w-72 h-[600px] bg-gray-900 rounded-[2.5rem] p-2 shadow-[0_30px_60px_-12px_rgba(0,0,0,0.5)] border-4 border-gray-700 transform hover:rotate-1 transition duration-500">
+                    <div class="w-full h-full bg-white rounded-[2rem] flex items-center justify-center p-0 overflow-hidden relative">
+                        
+                        <!-- Vídeo Placeholder em Loop -->
+                        <video class="w-full h-full object-cover rounded-[2rem]" autoplay loop muted playsinline poster="https://placehold.co/250x550/f0abfc/000000?text=App+Em+Ação">
+                            <!-- Substitua "URL_DO_VIDEO_DO_APLICATIVO.mp4" pelo seu link real -->
+                            <source src="mockup.mp4" type="video/mp4">
+                            Seu navegador não suporta o elemento de vídeo.
+                        </video>
+
+                        <!-- Detalhe da Câmera/Sensor do Celular -->
+                        <div class="absolute top-4 left-1/2 -translate-x-1/2 h-2 w-16 bg-gray-600 rounded-full"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Seção 2: Como Funciona - O Poder da IA -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto max-w-6xl px-4 text-center">
+            <h2 class="text-4xl font-bold mb-4 text-[#4f8dfd] tracking-tight">Criação de Flashcards Elevada a Outro Nível</h2>
+            <p class="text-xl text-gray-600 mb-12 max-w-3xl mx-auto">Diga adeus à criação manual de cartões. A IA do Revisa.app faz o trabalho pesado por você.</p>
+
+            <div class="grid md:grid-cols-3 gap-8 text-left">
+                <!-- Card 1: Importação Simples -->
+                <div class="p-6 bg-white rounded-xl shadow-lg border border-gray-100 hover:shadow-2xl transition duration-300 transform hover:-translate-y-1 fade-in-up">
+                    <div class="text-4xl text-[#a56dfd] mb-4">✍️</div>
+                    <h3 class="text-xl font-semibold mb-3">1. Importe seu Conteúdo</h3>
+                    <p class="text-gray-500">Cole qualquer texto, resumo, PDF ou material de estudo. O Revisa.app absorve e entende o contexto.</p>
+                </div>
+                <!-- Card 2: Geração Inteligente por IA -->
+                <div class="p-6 bg-white rounded-xl shadow-lg border border-gray-100 hover:shadow-2xl transition duration-300 transform hover:-translate-y-1 delay-200 fade-in-up">
+                    <div class="text-4xl text-[#f0abfc] mb-4">🧠</div>
+                    <h3 class="text-xl font-semibold mb-3">2. Geração Automática por IA</h3>
+                    <p class="text-gray-500">Nossa inteligência artificial identifica conceitos-chave, formula perguntas e respostas didáticas em segundos.</p>
+                </div>
+                <!-- Card 3: Lembretes Diários -->
+                <div class="p-6 bg-white rounded-xl shadow-lg border border-gray-100 hover:shadow-2xl transition duration-300 transform hover:-translate-y-1 delay-400 fade-in-up">
+                    <div class="text-4xl text-[#4f8dfd] mb-4">🔔</div>
+                    <h3 class="text-xl font-semibold mb-3">3. Lembretes e Notificações</h3>
+                    <p class="text-gray-500">Não perca o ritmo! Receba lembretes diários e notificações inteligentes para manter sua rotina de estudos consistente.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção 3: Métricas de Acompanhamento (Gráfico) -->
+    <section class="py-20 bg-gray-50">
+        <div class="container mx-auto max-w-6xl px-4 flex flex-col lg:flex-row items-center gap-12">
+            
+            <!-- Texto e CTA Lateral -->
+            <div class="lg:w-1/2 text-left fade-in-up">
+                <span class="text-sm font-semibold uppercase text-[#a56dfd] mb-2 block">Acompanhe Seu Crescimento</span>
+                <h2 class="text-4xl font-bold mb-4 text-gray-800 tracking-tight">Estatísticas Básicas: Acertos e Erros</h2>
+                <p class="text-lg text-gray-600 mb-6">
+                    O Revisa.app fornece estatísticas básicas de acertos e erros, permitindo que você acompanhe seu desempenho em tempo real. Saiba exatamente em quais áreas você está forte e onde precisa ajustar o foco.
+                </p>
+                <ul class="space-y-3 text-gray-700 mb-8">
+                    <li class="flex items-center"><span class="text-green-500 mr-2">✓</span> Desempenho por Tópico.</li>
+                    <li class="flex items-center"><span class="text-green-500 mr-2">✓</span> Evolução das Revisões.</li>
+                    <li class="flex items-center"><span class="text-green-500 mr-2">✓</span> Identificação de Pontos de Dificuldade.</li>
+                </ul>
+                <a href="#download" class="inline-block px-8 py-3 text-md font-bold text-white bg-[#a56dfd] rounded-lg shadow-lg hover:bg-[#9158ec] transition duration-300 transform hover:scale-105">
+                    Ver Minhas Métricas Agora
+                </a>
+            </div>
+
+            <!-- Área do Gráfico Chart.js -->
+            <div class="lg:w-1/2 w-full p-6 bg-white rounded-xl shadow-2xl fade-in-up delay-200">
+                <h3 class="text-xl font-semibold mb-4 text-gray-700">Curva de Retenção de Informação (30 Dias)</h3>
+                <canvas id="progressChart" class="w-full h-auto"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção 4: Design e Usabilidade -->
+    <section class="py-20 gradient-bg text-white">
+        <div class="container mx-auto max-w-6xl px-4 text-center">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-4xl font-bold mb-4 tracking-tight">Design Impecável para Foco Total</h2>
+                <p class="text-xl mb-12 opacity-90">
+                    Um ambiente de estudo limpo, funcional e agradável, pensado para eliminar distrações e tornar o processo de aprendizagem fluido.
+                </p>
+            </div>
+            
+            <div class="flex flex-col md:flex-row items-center justify-center gap-10">
+                <!-- Ícone de Simplicidade -->
+                <div class="p-6 bg-white/20 rounded-xl backdrop-blur-sm shadow-xl hover:bg-white/30 transition duration-300 transform hover:-translate-y-1 fade-in-up">
+                    <span class="text-6xl mb-3 block">✨</span>
+                    <h3 class="text-xl font-semibold">Simplicidade</h3>
+                    <p class="text-sm opacity-80">Interface limpa e intuitiva.</p>
+                </div>
+                <!-- Ícone de Funcionalidade -->
+                <div class="p-6 bg-white/20 rounded-xl backdrop-blur-sm shadow-xl hover:bg-white/30 transition duration-300 transform hover:-translate-y-1 delay-200 fade-in-up">
+                    <span class="text-6xl mb-3 block">⚙️</span>
+                    <h3 class="text-xl font-semibold">Funcionalidade</h3>
+                    <p class="text-sm opacity-80">Tudo a um toque de distância.</p>
+                </div>
+                <!-- Ícone de Importação Flexível -->
+                <div class="p-6 bg-white/20 rounded-xl backdrop-blur-sm shadow-xl hover:bg-white/30 transition duration-300 transform hover:-translate-y-1 delay-400 fade-in-up">
+                    <span class="text-6xl mb-3 block">📄</span>
+                    <h3 class="text-xl font-semibold">Importação Flexível</h3>
+                    <p class="text-sm opacity-80">Transforme textos, PDFs e resumos em flashcards instantaneamente.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção 5: FAQ - Perguntas Frequentes (Nova Sessão) -->
+    <section id="faq" class="py-20 bg-white">
+        <div class="container mx-auto max-w-4xl px-4">
+            <h2 class="text-4xl font-bold mb-10 text-center text-gray-800 tracking-tight fade-in-up">Perguntas Frequentes</h2>
+            
+            <div class="space-y-4">
+                
+                <!-- O que é o Revisa.app? -->
+                <div class="faq-item rounded-xl shadow-md border border-gray-100 fade-in-up delay-100">
+                    <div class="faq-question flex justify-between items-center p-5 cursor-pointer bg-gray-50 hover:bg-gray-100 rounded-xl transition duration-200 text-lg font-semibold text-gray-700" role="button" aria-expanded="false">
+                        O que é o Revisa.app?
+                        <svg class="faq-question-icon w-5 h-5 text-[#a56dfd]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <div class="faq-answer px-5 text-gray-600 border-t border-gray-100">
+                        <p class="text-base">O Revisa.app é um aplicativo que permite criar, estudar e revisar flashcards, gerados manualmente ou por inteligência artificial a partir de documentos PDF, DOCX, TXT ou HTML. É voltado principalmente para estudantes e concurseiros.</p>
+                    </div>
+                </div>
+                
+                <!-- Quem pode usar o Revisa.app? -->
+                <div class="faq-item rounded-xl shadow-md border border-gray-100 fade-in-up delay-200">
+                    <div class="faq-question flex justify-between items-center p-5 cursor-pointer bg-gray-50 hover:bg-gray-100 transition duration-200 text-lg font-semibold text-gray-700" role="button" aria-expanded="false">
+                        Quem pode usar o Revisa.app?
+                        <svg class="faq-question-icon w-5 h-5 text-[#a56dfd]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <div class="faq-answer px-5 text-gray-600 border-t border-gray-100">
+                        <p class="text-base">O aplicativo é destinado a usuários maiores de 18 anos que possuam uma conta Google para login.</p>
+                    </div>
+                </div>
+
+                <!-- É necessário criar uma conta para usar o app? -->
+                <div class="faq-item rounded-xl shadow-md border border-gray-100 fade-in-up delay-300">
+                    <div class="faq-question flex justify-between items-center p-5 cursor-pointer bg-gray-50 hover:bg-gray-100 transition duration-200 text-lg font-semibold text-gray-700" role="button" aria-expanded="false">
+                        É necessário criar uma conta para usar o app?
+                        <svg class="faq-question-icon w-5 h-5 text-[#a56dfd]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <div class="faq-answer px-5 text-gray-600 border-t border-gray-100">
+                        <p class="text-base">Sim, o acesso ao Revisa.app é feito exclusivamente via conta Google. Apenas o e-mail é obrigatório para cadastro, mas nome e telefone podem ser capturados quando disponíveis.</p>
+                    </div>
+                </div>
+
+                <!-- Posso excluir minha conta a qualquer momento? -->
+                <div class="faq-item rounded-xl shadow-md border border-gray-100 fade-in-up delay-400">
+                    <div class="faq-question flex justify-between items-center p-5 cursor-pointer bg-gray-50 hover:bg-gray-100 transition duration-200 text-lg font-semibold text-gray-700" role="button" aria-expanded="false">
+                        Posso excluir minha conta a qualquer momento?
+                        <svg class="faq-question-icon w-5 h-5 text-[#a56dfd]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <div class="faq-answer px-5 text-gray-600 border-t border-gray-100">
+                        <p class="text-base">Sim, desde que não haja assinatura ativa. Após a exclusão, seus dados serão anonimizados e não poderão ser recuperados. Informações agregadas podem ser utilizadas para treinar modelos de IA, sem identificação do usuário.</p>
+                    </div>
+                </div>
+                
+                <!-- Como o Revisa.app gera os flashcards? -->
+                <div class="faq-item rounded-xl shadow-md border border-gray-100 fade-in-up delay-500">
+                    <div class="faq-question flex justify-between items-center p-5 cursor-pointer bg-gray-50 hover:bg-gray-100 transition duration-200 text-lg font-semibold text-gray-700" role="button" aria-expanded="false">
+                        Como o Revisa.app gera os flashcards?
+                        <svg class="faq-question-icon w-5 h-5 text-[#a56dfd]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <div class="faq-answer px-5 text-gray-600 border-t border-gray-100">
+                        <p class="text-base">Os flashcards podem ser criados manualmente pelo usuário ou automaticamente por IA a partir de documentos ou descrições fornecidas pelo usuário.</p>
+                    </div>
+                </div>
+
+                <!-- Quantos flashcards posso criar gratuitamente? -->
+                <div class="faq-item rounded-xl shadow-md border border-gray-100 fade-in-up delay-600">
+                    <div class="faq-question flex justify-between items-center p-5 cursor-pointer bg-gray-50 hover:bg-gray-100 transition duration-200 text-lg font-semibold text-gray-700" role="button" aria-expanded="false">
+                        Quantos flashcards posso criar gratuitamente?
+                        <svg class="faq-question-icon w-5 h-5 text-[#a56dfd]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <div class="faq-answer px-5 text-gray-600 border-t border-gray-100">
+                        <p class="text-base">Ao baixar o app, você tem funcionalidades gratuitas como criar flashcards manuais, grupos e notificações diárias ilimitadas. Além disso, usuários no plano gratuito recebem 20 créditos para testar a geração de flashcards com IA.</p>
+                    </div>
+                </div>
+
+                <!-- O que são créditos e como funcionam? -->
+                <div class="faq-item rounded-xl shadow-md border border-gray-100 fade-in-up delay-700">
+                    <div class="faq-question flex justify-between items-center p-5 cursor-pointer bg-gray-50 hover:bg-gray-100 transition duration-200 text-lg font-semibold text-gray-700" role="button" aria-expanded="false">
+                        O que são créditos e como funcionam?
+                        <svg class="faq-question-icon w-5 h-5 text-[#a56dfd]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <div class="faq-answer px-5 text-gray-600 border-t border-gray-100">
+                        <p class="text-base">Créditos permitem gerar flashcards automaticamente com a IA. Cada plano oferece uma quantidade mensal de créditos, que podem ser acumulados até o limite máximo do plano.</p>
+                    </div>
+                </div>
+                
+                <!-- Qual a diferença entre os planos? -->
+                <div class="faq-item rounded-xl shadow-md border border-gray-100 fade-in-up delay-800">
+                    <div class="faq-question flex justify-between items-center p-5 cursor-pointer bg-gray-50 hover:bg-gray-100 transition duration-200 text-lg font-semibold text-gray-700" role="button" aria-expanded="false">
+                        Qual a diferença entre os planos?
+                        <svg class="faq-question-icon w-5 h-5 text-[#a56dfd]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <div class="faq-answer px-5 text-gray-600 border-t border-gray-100">
+                        <p class="text-base">Gratuito: funcionalidades manuais ilimitadas + notificações diárias + 20 créditos iniciais para testar IA<br>Básico: tudo do gratuito + 100 créditos/mês (acumula até 1000)<br>Avançado: tudo do gratuito + 500 créditos/mês (acumula até 3000)</p>
+                    </div>
+                </div>
+
+                <!-- Posso receber notificações de estudo diariamente? -->
+                <div class="faq-item rounded-xl shadow-md border border-gray-100 fade-in-up delay-900">
+                    <div class="faq-question flex justify-between items-center p-5 cursor-pointer bg-gray-50 hover:bg-gray-100 transition duration-200 text-lg font-semibold text-gray-700" role="button" aria-expanded="false">
+                        Posso receber notificações de estudo diariamente?
+                        <svg class="faq-question-icon w-5 h-5 text-[#a56dfd]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <div class="faq-answer px-5 text-gray-600 border-t border-gray-100">
+                        <p class="text-base">Sim! Todos os usuários podem ativar notificações diárias para manter a rotina de estudos.</p>
+                    </div>
+                </div>
+                
+                <!-- Posso usar o Revisa.app offline? -->
+                <div class="faq-item rounded-xl shadow-md border border-gray-100 fade-in-up delay-1000">
+                    <div class="faq-question flex justify-between items-center p-5 cursor-pointer bg-gray-50 hover:bg-gray-100 transition duration-200 text-lg font-semibold text-gray-700" role="button" aria-expanded="false">
+                        Posso usar o Revisa.app offline?
+                        <svg class="faq-question-icon w-5 h-5 text-[#a56dfd]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <div class="faq-answer px-5 text-gray-600 border-t border-gray-100">
+                        <p class="text-base">O app precisa de conexão para gerar flashcards com IA, mas você pode acessar e estudar os flashcards já criados offline.</p>
+                    </div>
+                </div>
+
+                <!-- Quem possui os direitos sobre os flashcards gerados? -->
+                <div class="faq-item rounded-xl shadow-md border border-gray-100 fade-in-up delay-1100">
+                    <div class="faq-question flex justify-between items-center p-5 cursor-pointer bg-gray-50 hover:bg-gray-100 transition duration-200 text-lg font-semibold text-gray-700" role="button" aria-expanded="false">
+                        Quem possui os direitos sobre os flashcards gerados?
+                        <svg class="faq-question-icon w-5 h-5 text-[#a56dfd]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <div class="faq-answer px-5 text-gray-600 border-t border-gray-100">
+                        <p class="text-base">O usuário mantém direitos sobre o conteúdo original enviado, mas os flashcards gerados pelo app são propriedade do Revisa.app. O usuário recebe uma licença limitada, pessoal e intransferível para estudo dentro do aplicativo.</p>
+                    </div>
+                </div>
+                
+                <!-- Como meus dados são protegidos? -->
+                <div class="faq-item rounded-xl shadow-md border border-gray-100 fade-in-up delay-1200">
+                    <div class="faq-question flex justify-between items-center p-5 cursor-pointer bg-gray-50 hover:bg-gray-100 transition duration-200 text-lg font-semibold text-gray-700" role="button" aria-expanded="false">
+                        Como meus dados são protegidos?
+                        <svg class="faq-question-icon w-5 h-5 text-[#a56dfd]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <div class="faq-answer px-5 text-gray-600 border-t border-gray-100">
+                        <p class="text-base">Os dados são criptografados e transferidos por conexões seguras. Servidores estão localizados no Brasil e nos Estados Unidos. Dados de uso e crash reports são tratados de forma anônima e segura.</p>
+                    </div>
+                </div>
+
+                <!-- O app coleta dados sensíveis? -->
+                <div class="faq-item rounded-xl shadow-md border border-gray-100 fade-in-up delay-1300">
+                    <div class="faq-question flex justify-between items-center p-5 cursor-pointer bg-gray-50 hover:bg-gray-100 transition duration-200 text-lg font-semibold text-gray-700" role="button" aria-expanded="false">
+                        O app coleta dados sensíveis?
+                        <svg class="faq-question-icon w-5 h-5 text-[#a56dfd]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <div class="faq-answer px-5 text-gray-600 border-t border-gray-100">
+                        <p class="text-base">Não. Nenhum dado sensível, como informações de saúde, orientação sexual ou financeiras, é coletado.</p>
+                    </div>
+                </div>
+
+                <!-- O app compartilha meus dados com terceiros? -->
+                <div class="faq-item rounded-xl shadow-md border border-gray-100 fade-in-up delay-1400">
+                    <div class="faq-question flex justify-between items-center p-5 cursor-pointer bg-gray-50 hover:bg-gray-100 transition duration-200 text-lg font-semibold text-gray-700" role="button" aria-expanded="false">
+                        O app compartilha meus dados com terceiros?
+                        <svg class="faq-question-icon w-5 h-5 text-[#a56dfd]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <div class="faq-answer px-5 text-gray-600 border-t border-gray-100">
+                        <p class="text-base">Sim, com Google, Firebase e Supabase para autenticação, análise, crash reports e armazenamento de dados. Também com Google Play Billing para processar pagamentos.</p>
+                    </div>
+                </div>
+
+                <!-- O app garante resultados de estudo? -->
+                <div class="faq-item rounded-xl shadow-md border border-gray-100 fade-in-up delay-1500">
+                    <div class="faq-question flex justify-between items-center p-5 cursor-pointer bg-gray-50 hover:bg-gray-100 transition duration-200 text-lg font-semibold text-gray-700" role="button" aria-expanded="false">
+                        O app garante resultados de estudo?
+                        <svg class="faq-question-icon w-5 h-5 text-[#a56dfd]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <div class="faq-answer px-5 text-gray-600 border-t border-gray-100">
+                        <p class="text-base">Não. O Revisa.app fornece ferramentas e conteúdo, mas não garante resultados específicos de aprendizagem.</p>
+                    </div>
+                </div>
+
+                <!-- Posso solicitar portabilidade dos meus dados? -->
+                <div class="faq-item rounded-xl shadow-md border border-gray-100 fade-in-up delay-1600">
+                    <div class="faq-question flex justify-between items-center p-5 cursor-pointer bg-gray-50 hover:bg-gray-100 transition duration-200 text-lg font-semibold text-gray-700" role="button" aria-expanded="false">
+                        Posso solicitar portabilidade dos meus dados?
+                        <svg class="faq-question-icon w-5 h-5 text-[#a56dfd]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <div class="faq-answer px-5 text-gray-600 border-t border-gray-100">
+                        <p class="text-base">Não. No momento, o Revisa.app não oferece portabilidade de dados para outros serviços, devido a limitações técnicas. Todos os dados podem ser acessados, corrigidos, excluídos ou anonimizados mediante solicitação.</p>
+                    </div>
+                </div>
+
+                <!-- Como posso revogar meu consentimento ou acessar meus dados? -->
+                <div class="faq-item rounded-xl shadow-md border border-gray-100 fade-in-up delay-1700">
+                    <div class="faq-question flex justify-between items-center p-5 cursor-pointer bg-gray-50 hover:bg-gray-100 transition duration-200 text-lg font-semibold text-gray-700" role="button" aria-expanded="false">
+                        Como posso revogar meu consentimento ou acessar meus dados?
+                        <svg class="faq-question-icon w-5 h-5 text-[#a56dfd]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <div class="faq-answer px-5 text-gray-600 border-t border-gray-100">
+                        <p class="text-base">Você pode solicitar acesso, correção, exclusão ou anonimização dos dados, ou revogar consentimento, enviando e-mail para suporte@revisaapp.com.</p>
+                    </div>
+                </div>
+
+                <!-- Como entrar em contato com o suporte? -->
+                <div class="faq-item rounded-xl shadow-md border border-gray-100 fade-in-up delay-1800">
+                    <div class="faq-question flex justify-between items-center p-5 cursor-pointer bg-gray-50 hover:bg-gray-100 transition duration-200 text-lg font-semibold text-gray-700" role="button" aria-expanded="false">
+                        Como entrar em contato com o suporte?
+                        <svg class="faq-question-icon w-5 h-5 text-[#a56dfd]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <div class="faq-answer px-5 text-gray-600 border-t border-gray-100">
+                        <p class="text-base">Para dúvidas ou reclamações, entre em contato pelo e-mail suporte@revisaapp.com. O prazo mínimo de resposta é de 7 dias úteis durante horário comercial.</p>
+                    </div>
+                </div>
+
+                <!-- O que acontece se eu ficar inativo por muito tempo? -->
+                <div class="faq-item rounded-xl shadow-md border border-gray-100 fade-in-up delay-1900">
+                    <div class="faq-question flex justify-between items-center p-5 cursor-pointer bg-gray-50 hover:bg-gray-100 transition duration-200 text-lg font-semibold text-gray-700" role="button" aria-expanded="false">
+                        O que acontece se eu ficar inativo por muito tempo?
+                        <svg class="faq-question-icon w-5 h-5 text-[#a56dfd]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <div class="faq-answer px-5 text-gray-600 border-t border-gray-100">
+                        <p class="text-base">Contas inativas por mais de 12 meses poderão ser excluídas pelo Revisa.app. Antes da exclusão definitiva, enviaremos um aviso para o e-mail cadastrado com antecedência mínima de 30 dias — durante esse período você pode reativar a conta fazendo login. Observação: exclusões automáticas não são realizadas enquanto houver uma assinatura ativa; se houver assinatura, cancele-a para que a exclusão possa ocorrer conforme descrito. Após a exclusão, os dados serão anonimizados ou apagados de forma irreversível.</p>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção Final de Chamada para Ação (CTA) -->
+    <section id="download" class="py-20 bg-white">
+        <div class="container mx-auto max-w-4xl px-4 text-center">
+            <h2 class="text-4xl font-bold mb-4 text-gray-800 tracking-tight">Não perca mais tempo. Em breve, estude de forma inteligente.</h2>
+            <p class="text-xl text-gray-600 mb-10">Prepare-se para transformar suas revisões — o futuro dos estudos está chegando.</p>
+
+            <a id="storelink" href="#" target="_blank" class="inline-flex items-center justify-center px-16 py-4 text-xl font-extrabold text-white bg-[#ff0024] rounded-full shadow-2xl hover:bg-[#ad1f5a] transition duration-300 ease-in-out transform hover:scale-105 animate-pulse-cta">
+                Disponível em breve!
+            </a>
+
+        </div>
+    </section>
+
+    <!-- Rodapé -->
+    <footer class="bg-gray-800 text-white p-6 text-center">
+        <div class="container mx-auto">
+            <p>&copy; 2025 Revisa.app. Todos os direitos reservados.</p>
+            <p class="text-sm mt-2 text-gray-400">Estude rápido, memorize fácil.</p>
+        </div>
+    </footer>
+
+
+    <script>
+        // --- Lógica do Chart.js (Item 3) ---
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // Dados para comparação de retenção (conceitual baseado em eficácia de flashcards e repetição espaçada)
+            const retentionData = {
+                labels: ['Dia 1', 'Dia 7', 'Dia 15', 'Dia 21', 'Dia 30'],
+                datasets: [
+                    {
+                        label: 'Retenção COM Flashcards (Repetição Espaçada)',
+                        data: [95, 88, 85, 83, 80],
+                        borderColor: '#4f8dfd', // Azul claro
+                        backgroundColor: 'rgba(79, 141, 253, 0.4)',
+                        fill: false,
+                        tension: 0.2,
+                        pointRadius: 5,
+                        pointBackgroundColor: '#4f8dfd',
+                    },
+                    {
+                        label: 'Retenção SEM Flashcards (Leitura Passiva)',
+                        data: [90, 50, 30, 25, 20],
+                        borderColor: '#f0abfc', // Roxo/Rosa
+                        backgroundColor: 'rgba(240, 171, 252, 0.4)',
+                        fill: false,
+                        tension: 0.2,
+                        pointRadius: 5,
+                        pointBackgroundColor: '#f0abfc',
+                        borderDash: [5, 5] // Linha tracejada
+                    }
+                ]
+            };
+
+            const config = {
+                type: 'line',
+                data: retentionData,
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                font: {
+                                    family: 'Inter'
+                                }
+                            }
+                        },
+                        title: {
+                            display: false,
+                        }
+                    },
+                    scales: {
+                        y: {
+                            min: 0,
+                            max: 100,
+                            title: {
+                                display: true,
+                                text: 'Percentual de Retenção (%)'
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '%';
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            const retentionChart = new Chart(
+                document.getElementById('progressChart'),
+                config
+            );
+
+            // --- Lógica da Animação Scroll (Fade In Up) ---
+            const faders = document.querySelectorAll('.fade-in-up');
+
+            const appearOptions = {
+                threshold: 0,
+                rootMargin: "0px 0px -100px 0px" // Inicia 100px antes de chegar no topo
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    }
+                    entry.target.classList.add('visible');
+                    appearOnScroll.unobserve(entry.target);
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+
+            // --- Lógica do FAQ (Accordion) ---
+            const faqQuestions = document.querySelectorAll('.faq-question');
+
+            faqQuestions.forEach(question => {
+                question.addEventListener('click', () => {
+                    const answer = question.nextElementSibling;
+                    const isActive = question.classList.contains('active');
+
+                    // Fecha todas as outras respostas abertas
+                    document.querySelectorAll('.faq-answer.open').forEach(openAnswer => {
+                        if (openAnswer !== answer) {
+                            openAnswer.classList.remove('open');
+                            openAnswer.previousElementSibling.classList.remove('active');
+                            openAnswer.previousElementSibling.setAttribute('aria-expanded', 'false');
+                            // Garante que o rounded-xl permaneça no item do FAQ fechado
+                            openAnswer.previousElementSibling.classList.add('rounded-xl');
+                        }
+                    });
+
+                    // Alterna a resposta clicada
+                    if (!isActive) {
+                        // Abre
+                        question.classList.add('active');
+                        answer.classList.add('open');
+                        question.setAttribute('aria-expanded', 'true');
+                        // Remove o arredondamento inferior do cabeçalho quando aberto
+                        question.classList.remove('rounded-xl');
+                        question.classList.add('rounded-t-xl');
+
+                    } else {
+                        // Fecha
+                        question.classList.remove('active');
+                        answer.classList.remove('open');
+                        question.setAttribute('aria-expanded', 'false');
+                        // Restaura o arredondamento total do cabeçalho quando fechado
+                        question.classList.add('rounded-xl');
+                        question.classList.remove('rounded-t-xl');
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
