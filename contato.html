@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DBR1WXST1T"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-DBR1WXST1T');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revisa.app | Seu Assistente Inteligente de Estudos e Revisão</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <!-- Carregando Tailwind CSS CDN -->
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Carregando Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <style>
+        /* Configuração da fonte Inter e estilo global */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        
+        :root {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Gradiente de fundo customizado */
+        .gradient-bg {
+            background: linear-gradient(135deg, #4f8dfd 0%, #a56dfd 50%, #f0abfc 100%);
+        }
+
+        /* Animação para o botão CTA (Pulsar) */
+        @keyframes pulse-cta {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 rgba(240, 171, 252, 0.7); }
+            50% { transform: scale(1.03); box-shadow: 0 0 25px rgba(240, 171, 252, 1); }
+        }
+        .animate-pulse-cta {
+            animation: pulse-cta 2s infinite ease-in-out;
+        }
+
+        /* Animação para elementos flutuantes (IA/Cards) */
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
+        }
+        .animate-float-slow {
+            animation: float 5s ease-in-out infinite;
+        }
+        .animate-float-medium {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        /* Animação para cards que aparecem */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Custom CSS para o Acordeão FAQ */
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            /* Transição suave para max-height e padding */
+            transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out; 
+        }
+
+        .faq-answer.open {
+            max-height: 500px; /* Suficientemente grande para as respostas */
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+
+        .faq-question-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .faq-question.active .faq-question-icon {
+            transform: rotate(180deg);
+        }
+
+    </style>
+</head>
+<body class="bg-gray-50 antialiased text-gray-800">
+
+    <!-- Navegação Topo (Item 5 e 6) -->
+    <nav class="absolute top-0 left-0 right-0 z-20 p-4">
+        <div class="container mx-auto max-w-6xl flex justify-between items-center">
+            <!-- Ícone do App (Esquerda) - revisaapp.png -->
+            <div class="flex items-center space-x-2">
+                <!-- Usando um placeholder com as cores da marca -->
+                <a href="index.html" class="flex items-center space-x-2">
+                  <img src="revisaapp.png" alt="Ícone Revisa.app" class="w-10 h-10 rounded-lg">
+                  <span class="text-white text-lg font-bold">Revisa.app</span>
+                </a>
+            </div>
+            <!-- Menu Sutil (Direita) -->
+            <div class="hidden md:flex space-x-6 text-sm">
+                <a href="contato.html" class="text-white opacity-80 hover:opacity-100 transition duration-200">Contato</a>
+                <a href="termos-de-uso.html" class="text-white opacity-80 hover:opacity-100 transition duration-200">Termos de Uso</a>
+                <a href="politica-de-privacidade.html" class="text-white opacity-80 hover:opacity-100 transition duration-200">Políticas de Privacidade</a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Seção Principal (Hero) com Gradiente -->
+    <header class="gradient-bg min-h-[10vh] flex items-center justify-center p-4 pt-20"> <!-- Adicionado pt-20 para compensar a nav -->
+
+    </header>
+
+    <!-- Seção Final de Chamada para Ação (CTA) -->
+    <sectionclass="py-20 bg-white">
+        <div class="container mx-auto max-w-4xl px-4 text-center">
+
+            <div class="max-w-lg mx-auto mt-10 mb-10 bg-white p-8 rounded-xl shadow-2xl">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Entre em Contato com o Revisa.app</h2>
+                <p class="text-gray-500 mb-6 text-center">Preencha os campos e clique em enviar para abrir seu cliente de e-mail.</p>
+
+                <form id="contactForm" class="space-y-6">
+
+                    <div>
+                        <label for="assunto" class="block text-sm font-medium text-gray-700 mb-2">
+                            Selecione o Assunto
+                        </label>
+                        <select id="assunto" name="assunto" required
+                            class="mt-1 block w-full pl-3 pr-10 py-3 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-lg shadow-sm">
+                            <option value="Dúvida Geral">Dúvida Geral</option>
+                            <option value="Suporte Técnico">Suporte Técnico</option>
+                            <option value="Sugestão">Sugestão</option>
+                            <option value="Parceria">Exclusão de Dados</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="mensagem" class="block text-sm font-medium text-gray-700 mb-2">
+                            Mensagem (Máx. 200 caracteres)
+                        </label>
+                        <textarea id="mensagem" name="mensagem" rows="5" maxlength="200" required
+                            placeholder="Escreva sua mensagem aqui..."
+                            class="mt-1 block w-full py-3 px-4 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 resize-none text-gray-900"></textarea>
+                        <p id="charCount" class="text-xs text-gray-500 mt-1 text-right">0 / 200 caracteres</p>
+                    </div>
+
+                    <div>
+                        <button type="submit"
+                            class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-md text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150">
+                            Enviar por E-mail
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="mt-10 pt-6 pb-6 border-t border-gray-200">
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">Direitos do Titular de Dados</h3>
+
+                <p class="text-gray-700 mb-4">
+                    Você pode solicitar <b>acesso, correção, exclusão ou anonimização</b> dos seus dados, ou revogar qualquer consentimento, enviando um e-mail para <a href="mailto:suporte@revisaapp.com" class="text-indigo-600 hover:text-indigo-800 font-medium">suporte@revisaapp.com</a>. Utilize o formulário acima, se desejar, para facilitar a descrição da sua solicitação.
+                </p>
+
+                <div class="p-4 bg-red-50 border border-red-200 rounded-lg mb-4">
+                    <h4 class="font-bold text-red-700 mb-2">Exclusão de Conta</h4>
+                    <ul class="list-disc list-inside text-red-600 space-y-1 text-sm">
+                        <li>Para solicitar a exclusão, você deve <b>obrigatoriamente informar o e-mail</b> da sua conta do Revisa.app na mensagem.</li>
+                        <li>A exclusão da conta só pode ser processada se <b>não houver nenhuma assinatura ativa</b>.</li>
+                        <li>Após a exclusão, seus dados serão <b>anonimizados ou apagados de forma irreversível</b> e não poderão ser recuperados.</li>
+                        <li>Informações agregadas e anonimizadas podem ser utilizadas para treinar modelos de IA, sem qualquer identificação do usuário.</li>
+                    </ul>
+                </div>
+                
+                <div class="text-gray-600 space-y-3 text-sm">
+                    <p>
+                        <span class="font-semibold">Política de Inatividade:</span> Contas inativas por mais de <b>12 meses</b> poderão ser excluídas pelo Revisa.app. Antes da exclusão definitiva, enviaremos um aviso para o e-mail cadastrado com <b>antecedência mínima de 30 dias</b>, durante o qual você pode reativar a conta apenas fazendo login.
+                    </p>
+                    <p>
+                        <span class="font-semibold">Observação sobre Assinaturas:</span> Exclusões automáticas não são realizadas enquanto houver uma assinatura ativa. Para que a exclusão ocorra (manual ou automática), é necessário <b>cancelar a assinatura</b>.
+                    </p>
+                    <p>
+                        <span class="font-semibold">Prazo de Resposta:</span> O prazo mínimo de resposta para sua solicitação é de <b>7 dias úteis</b>, processado durante nosso horário comercial.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Rodapé -->
+    <footer class="bg-gray-800 text-white p-6 text-center">
+        <div class="container mx-auto">
+            <p>&copy; 2025 Revisa.app. Todos os direitos reservados.</p>
+            <p class="text-sm mt-2 text-gray-400">Estude rápido, memorize fácil.</p>
+        </div>
+    </footer>
+
+<script>
+        // 1. Lógica para Contagem de Caracteres em tempo real
+        const mensagemTextarea = document.getElementById('mensagem');
+        const charCountElement = document.getElementById('charCount');
+
+        mensagemTextarea.addEventListener('input', function() {
+            const currentLength = mensagemTextarea.value.length;
+            charCountElement.textContent = `${currentLength} / 200 caracteres`;
+        });
+
+
+        // 2. Lógica de Envio (a mesma do código anterior, com melhorias de UX)
+        document.getElementById('contactForm').addEventListener('submit', function(event) {
+            // Previne o envio padrão do formulário
+            event.preventDefault();
+
+            // Obtém os valores do formulário
+            const assunto = document.getElementById('assunto').value;
+            const mensagem = document.getElementById('mensagem').value;
+
+            // Define o e-mail de destino (MUDAR PARA O SEU E-MAIL)
+            const emailDestino = 'suporte@revisaapp.com'; 
+
+            // Codifica os valores para URL (essencial para o mailto)
+            // Adicionamos o Assunto do Formulário ao Assunto do E-mail
+            const assuntoEmail = 'Contato via Formulário: ' + assunto;
+            const assuntoCodificado = encodeURIComponent(assuntoEmail);
+            
+            // Corpo do E-mail (A mensagem do usuário)
+            const corpoCodificado = encodeURIComponent(mensagem);
+
+            // Constrói a URL mailto:
+            // Estrutura: mailto:DESTINO?subject=ASSUNTO&body=CORPO
+            const mailtoURL = `mailto:${emailDestino}?subject=${assuntoCodificado}&body=${corpoCodificado}`;
+
+            // Exibe uma notificação antes de abrir
+            alert('Aguarde, seu cliente de e-mail será aberto agora. Você precisará clicar em "Enviar" no seu programa de e-mail.');
+
+            // Redireciona para o link, que abrirá o cliente de e-mail
+            window.location.href = mailtoURL;
+        });
+    </script>
+
+</body>
+</html>
