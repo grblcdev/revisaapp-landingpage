@@ -469,13 +469,14 @@
     <!-- Seção Final de Chamada para Ação (CTA) -->
     <section id="download" class="py-20 bg-white">
         <div class="container mx-auto max-w-4xl px-4 text-center">
-            <h2 class="text-4xl font-bold mb-4 text-gray-800 tracking-tight">Não perca mais tempo. Em breve, estude de forma inteligente.</h2>
-            <p class="text-xl text-gray-600 mb-10">Prepare-se para transformar suas revisões — o futuro dos estudos está chegando.</p>
+            <h2 class="text-4xl font-bold mb-4 text-gray-800 tracking-tight">Pare de Perder Tempo. Comece a Estudar Inteligente.</h2>
+            <p class="text-xl text-gray-600 mb-10">Transforme sua maneira de revisar. O futuro dos estudos está aqui.</p>
 
-            <a id="storelink" href="#" target="_blank" class="inline-flex items-center justify-center px-16 py-4 text-xl font-extrabold text-white bg-[#ff0024] rounded-full shadow-2xl hover:bg-[#ad1f5a] transition duration-300 ease-in-out transform hover:scale-105 animate-pulse-cta">
-                Disponível em breve!
+            <a id="storelink" href="https://play.google.com/store/apps/details?id=com.grblcdev.revisaapp&referrer=utm_source%3Dsite%26utm_medium%3Dorganico%26utm_campaign%3Dlancamento_inicial%0A" target="_blank" class="inline-flex items-center justify-center px-16 py-4 text-xl font-extrabold text-white bg-[#4f8dfd] rounded-full shadow-2xl hover:bg-[#3e76d9] transition duration-300 ease-in-out transform hover:scale-105 animate-pulse-cta">
+                <img src="download.svg" class="w-6 h-6 mr-3" alt="Download" width="24" height="24">
+                Baixar no Google Play
             </a>
-
+            <p class="text-sm text-gray-500 mt-4">Download gratuito. Comece a revisar hoje.</p>
         </div>
     </section>
 
@@ -491,6 +492,44 @@
     <script>
         // --- Lógica do Chart.js (Item 3) ---
         document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const parametroS = urlParams.get('s');
+            const parametroM = urlParams.get('m');
+            const parametroC = urlParams.get('c');
+
+            if(parametroS && parametroM && parametroC) {
+                window.sessionStorage.setItem('s', parametroS);
+                window.sessionStorage.setItem('m', parametroM);
+                window.sessionStorage.setItem('c', parametroC);
+                window.sessionStorage.setItem('t', `${(new Date()).getTime()}`);
+
+                const storelink = document.getElementById('storelink');
+                const newparams = encodeURIComponent(`utm_source=${parametroS}&utm_medium=${parametroM}&utm_campaign=${parametroC}`);
+                storelink.href = `https://play.google.com/store/apps/details?id=com.grblcdev.revisaapp&referrer=${newparams}`;
+
+                const estadoAtual = history.state;
+                const caminhoSemQuery = window.location.pathname;
+                const hash = window.location.hash;
+                const novaURLLimpa = caminhoSemQuery + hash;
+                history.replaceState(estadoAtual, document.title, novaURLLimpa);
+            } else {
+                let _parametroS = window.sessionStorage.getItem('s');
+                let _parametroM = window.sessionStorage.getItem('m');
+                let _parametroC = window.sessionStorage.getItem('c');
+                let _parametroT = window.sessionStorage.getItem('t');
+                try {
+                    _parametroT = parseInt(_parametroT);
+                } catch (error) {
+                    _parametroT = 0;
+                }
+                if(_parametroS && _parametroM && _parametroC && _parametroT && _parametroT + (60000 * 60) > (new Date).getTime()) {
+                    const storelink = document.getElementById('storelink');
+                    const newparams = encodeURIComponent(`utm_source=${_parametroS}&utm_medium=${_parametroM}&utm_campaign=${_parametroC}`);
+                    storelink.href = `https://play.google.com/store/apps/details?id=com.grblcdev.revisaapp&referrer=${newparams}`;
+                } else {
+                    window.sessionStorage.clear();
+                }
+            }
 
             // Dados para comparação de retenção (conceitual baseado em eficácia de flashcards e repetição espaçada)
             const retentionData = {
