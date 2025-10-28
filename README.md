@@ -1,1 +1,1 @@
-# Revisa.app - Landing Page
+# Educatio Cards - Landing Page
